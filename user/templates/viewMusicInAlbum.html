@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		body{
+			background-color: #21181D !important;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	{% include "toolbar.html" %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="row">
+					{% for i in music%}
+					<div class="col-12" style="border: 1px solid white; margin-top: 15px; color: white;">
+						<div class="row">
+							<div class="col-2">
+								<a href="#" title="" onclick="loadMusic(id)" id="{{i.6}}">
+									<img src="/media/{{i.0}}" alt="" style="width: 100%; height: auto;">
+								</a>
+							</div>
+							<div class="col-8">
+								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.6}}">
+									<div>Name: {{i.1}}</div>
+									<div>
+										Singer: {{i.2}}
+									</div>
+									<div>
+										Price: {{i.3}}$
+									</div>
+									<div>
+										Like: {{i.4}}
+									</div>
+									<div>
+										Description: {{i.5}}
+									</div>
+								</a>
+							</div>
+							<div class="col-2">
+								<i class="fa fa-shopping-cart" style="font-size:36px;color:white; cursor: pointer;" onclick="ratingMusic(id)" id="{{i.7}}"></i>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+{% include "footer.html" %}
+<script>
+	function loadMusic(id){
+		document.getElementById('playMusic').src = "/media/"+id;
+		document.getElementById('audio').src = "/media/"+id;
+		var audio = document.getElementById('music');
+		audio.load();
+		audio.play();
+		playButton.style.visibility = "hidden";
+		pause.style.visibility = "visible";
+	}
+	function ratingMusic(id) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if(this.responseText = "Login")
+				{
+					location.href = "/login";
+				}
+			}
+		};
+		xhttp.open("GET", "/LikeMusic/"+id, true);
+		xhttp.send();
+	}
+</script>
+</html>
