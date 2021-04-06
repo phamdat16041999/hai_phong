@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 		hr{
 			width: 100%;
@@ -34,7 +30,7 @@
 		/* Image zoom on hover + Overlay colour */
 		.parent {
 			width: 100%;
-			height: 170px;
+			height: 360px;
 			overflow: hidden;
 			position: relative;
 			display: inline-block;
@@ -113,21 +109,25 @@
 	{% include toolbar %}
 	<div class="container-xl">
 		<div class="row">
-			<div class="col-12">
-				<h3 style="color:#1abc9c;margin-top: 60px;">{{title}}</h3>
-			</div>
 			{% for i in album%}
-			<div class="col-xl-3 col-12">
+			<div class="col-xl-6 col-12">
 				<div class="row information">
-					<div class="col-12">
+					<div class="col-8">
+						<div class="row">
+							<div class="col-12">
+								Name: {{i.Name}}
+							</div>
+							<div class="col-12">
+								Buy album: {{i.Price}}$
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
 						<div class="row">
 							<div class="col-6">
-								
-							</div>
-							<div class="col-3">
 								<i class="fa fa-shopping-cart" style="font-size:36px;color:white; cursor: pointer;" onclick="buyAlbum('cart{{i.id}}')" data-toggle="modal" data-target="#exampleModal"></i>
 							</div>
-							<div class="col-3">
+							<div class="col-6">
 								<i class="fa fa-heart-o" style="font-size:36px;cursor: pointer;" id="like{{i.id}}" onclick="like(id)"></i>
 								<i class="fa fa-heart" style="font-size:36px; color: white; cursor: pointer; display: none;" id="unlike{{i.id}}" onclick="unLike(id)"></i>
 							</div>
@@ -137,16 +137,6 @@
 				<div class="parent" onclick="">
 					<div class="child" style="background-image: url(/media/{{i.Image}}); background-position: center;">
 						<a href="/viewMusicInAlbum/{{i.id}}" class="play"><i class="fa fa-play" style="font-size:48px;color:white"></i></a>
-					</div>
-				</div>
-				<div class="col-12" style="color: white;">
-					<div class="row">
-						<div class="col-12">
-							Name: {{i.Name}}
-						</div>
-						<div class="col-12">
-							Buy album: {{i.Price}}$
-						</div>
 					</div>
 				</div>
 			</div>
@@ -170,22 +160,6 @@
 	{% include 'footerContact.html' %}
 </body>
 <script>
-	function deleteYourAlbum(id)
-	{
-		document.getElementById("remove"+id).remove();
-		var splitID = id.match(/[a-z]+|[^a-z]+/gi);
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				if(this.responseText == "Delete")
-				{
-					alert("Delete album successfully");
-				}
-			}
-		};
-		xhttp.open("GET", "/deleteYourAlbum/"+id, true);
-		xhttp.send();
-	}
 	function buyAlbum(id)
 	{
 		var splitID = id.match(/[a-z]+|[^a-z]+/gi);
@@ -205,9 +179,9 @@
 <script>
 	/*shows the song status icon when reloading the page*/
 	{% for i in rate_album%}
-	console.log("{{i.AlbumID_id}}")
-	$("#unlike{{i.AlbumID_id}}").show();
-	$("#like{{i.AlbumID_id}}").hide();
+	console.log("{{i.AlbumID_id.id}}")
+	$("#unlike{{i.AlbumID_id.id}}").show();
+	$("#like{{i.AlbumID_id.id}}").hide();
 	{% endfor %}
 </script>
 <script>

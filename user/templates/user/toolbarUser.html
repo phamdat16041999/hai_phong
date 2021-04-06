@@ -15,6 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
 		.linkToolbar
 		{
@@ -43,12 +44,24 @@
 						</div>
 					</div>
 					<a class="nav-item nav-link linkToolbar" href="/ViewMusic">Music</a>
-					<a class="nav-item nav-link linkToolbar" href="#">Booking & contact</a>
-					<a class="nav-item nav-link linkToolbar" href="#">Music charts</a>
+					<a class="nav-item nav-link linkToolbar" href="/Contact">Booking & contact</a>
+					<a class="nav-item nav-link linkToolbar" href="/MusicChart">Music charts</a>
+					<a class="nav-item nav-link linkToolbar" href="/MusicPurchaseHistory">Music purchase history</a>
 				</div>
 				<div class="navbar-nav" style="width: 20%;">
-					<a class="nav-item nav-link linkToolbar" href="\login">Login</a>
-					<a class="nav-item nav-link linkToolbar" href="\signUpInterface">Sign up</a>
+					<a class="nav-item nav-link linkToolbar" href="\ViewCart">
+						<i class="fa fa-shopping-cart" style="font-size:36px;color:white; cursor: pointer;"></i>
+					</a>
+					<div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #ED524D !important;border-color: #ED524D !important;">
+							<img src="https://image.shutterstock.com/image-vector/thin-line-user-icon-on-260nw-519039097.jpg" alt="..." class="rounded-circle" style="width: 40px; height: 40px;">
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Change password</a>
+							<a class="dropdown-item" href="/logout">Logout</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

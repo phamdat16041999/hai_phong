@@ -35,8 +35,14 @@ class Group_music(models.Model):
 class Rate_music(models.Model):
 	Music_ID = models.ForeignKey(Music, default=None, on_delete=models.CASCADE)
 	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+	isLike = models.BooleanField()
 class Rate_album(models.Model):
 	AlbumID = models.ForeignKey(Album, default=None, on_delete=models.CASCADE)
 	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+	isLike = models.BooleanField()
+class Bill(models.Model):
+	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+	Bill = models.ImageField(null=True, blank=True)
+	Shipped = models.BooleanField()
+	Date = models.DateTimeField(auto_now_add = True)
 
-	

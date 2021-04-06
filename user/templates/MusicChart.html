@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title></title>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
@@ -12,44 +13,43 @@
 </head>
 <body>
 	{% include toolbar %}
-	<div class="container" style="margin-bottom: 100px;">
+	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<img src="/media/{{music.0.8}}" alt="" style="width: 100%; height: auto;">
+				<h2 style="color: white;">New a song</h2>
 			</div>
 			<div class="col-12">
 				<div class="row">
 					{% for i in music%}
-					<div class="col-12" style="border: 1px solid white; margin-top: 15px; color: white;" id="removeMusic{{i.7}}">
+					<div class="col-12" style="border: 1px solid white; margin-top: 15px; color: white;">
 						<div class="row">
 							<div class="col-2">
-								<a href="#" title="" onclick="loadMusic(id)" id="{{i.6}}">
-									<img src="/media/{{i.0}}" alt="" style="width: 100%; height: auto;">
+								<a href="#" title="" onclick="loadMusic(id)" id="{{i.Music}}">
+									<img src="/media/{{i.Image}}" alt="" style="width: 100%; height: auto;">
 								</a>
 							</div>
 							<div class="col-8">
-								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.6}}">
-									<div>Name: {{i.1}}</div>
+								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.Music}}">
+									<div>Name: {{i.Name}}</div>
 									<div>
-										Singer: {{i.2}}
+										Singer: {{i.Singer}}
 									</div>
 									<div>
-										Price: {{i.3}}$
+										Price: {{i.Price}}$
 									</div>
 									<div>
-										Like: {{i.4}}
+										Rate: {{i.Rate}}
 									</div>
 									<div>
-										Description: {{i.5}}
+										Description: {{i.Description}}
 									</div>
 								</a>
 							</div>
 							<div class="col-2">
-								{% if i.9 != None %}
-								<i class="material-icons" style="font-size:36px; cursor: pointer;" onclick="deleteMusic('{{i.7}}')">delete</i>
-								{% endif %}
+								<i class="fa fa-heart-o" style="font-size:36px;cursor: pointer;" id="like{{i.id}}" onclick="like(id)"></i>
+								<i class="fa fa-heart" style="font-size:36px; color: white; cursor: pointer; display: none;" id="unlike{{i.id}}" onclick="unLike(id)"></i>
 								{% if toolbar == "user/toolbarUser.html" %}
-								<i class="material-icons" style="font-size:50px; margin-top: -8px; position: absolute; cursor: pointer;" data-toggle="modal" data-target="#exampleModal" onclick="setMusic('{{i.7}}')">add</i>
+								<i class="material-icons" style="font-size:50px; margin-top: -8px; position: absolute; cursor: pointer;" data-toggle="modal" data-target="#exampleModal" onclick="setMusic('{{i.id}}')">add</i>
 								{% endif %}
 							</div>
 						</div>
@@ -106,21 +106,14 @@
 {% include 'footerContact.html' %}
 {% include "footer.html" %}
 <script>
-	function deleteMusic(id)
-	{
-		document.getElementById('removeMusic'+id).remove();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				if(this.responseText == "Successfully deleted the song")
-				{
-					alert("Successfully deleted the song");
-				}
-			}
-		};
-		xhttp.open("GET", "/deleteMusic/"+id+"/"+ '{{music.0.10}}', true);
-		xhttp.send();
-	}
+	/*shows the song status icon when reloading the page*/
+	{% for i in rate_music%}
+	console.log("{{i.Music_ID.id}}")
+	$("#unlike{{i.Music_ID.id}}").show();
+	$("#like{{i.Music_ID.id}}").hide();
+	{% endfor %}
+</script>
+<script>
 	function closeNotification(){
 		document.getElementById('removeNotification').style.display = "block"
 		document.getElementById('successfully').style.display = "none"
@@ -153,6 +146,40 @@
 		xhttp.open("GET", "/addMusic/"+idMusic+"/"+idAlbum, true);
 		xhttp.send();
 	}
+	function like(id)
+	{
+		var splitID = id.match(/[a-z]+|[^a-z]+/gi);
+		$("#"+id).hide();
+		$("#unlike"+splitID[1]).show();
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if(this.responseText == "Login")
+				{
+					location.href = "/login";
+				}
+			}
+		};
+		xhttp.open("GET", "/LikeMusic/"+splitID[1], true);
+		xhttp.send();
+	}
+	function unLike(id)
+	{
+		var splitID = id.match(/[a-z]+|[^a-z]+/gi);
+		$("#"+id).hide();
+		$("#like"+splitID[1]).show();
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if(this.responseText == "Login")
+				{
+					location.href = "/login";
+				}
+			}
+		};
+		xhttp.open("GET", "/LikeMusic/"+splitID[1], true);
+		xhttp.send();
+	}
 	function loadMusic(id){
 		document.getElementById('playMusic').src = "/media/"+id;
 		document.getElementById('audio').src = "/media/"+id;
@@ -161,19 +188,6 @@
 		audio.play();
 		playButton.style.visibility = "hidden";
 		pause.style.visibility = "visible";
-	}
-	function ratingMusic(id) {
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				if(this.responseText = "Login")
-				{
-					location.href = "/login";
-				}
-			}
-		};
-		xhttp.open("GET", "/LikeMusic/"+id, true);
-		xhttp.send();
 	}
 </script>
 </html>
