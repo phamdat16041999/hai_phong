@@ -30,6 +30,10 @@ urlpatterns = [
     path('MusicPurchaseHistory', views.MusicPurchaseHistory),
     path('signUpInterface', views.signUpInterface),
     path('signUp', views.signUp),
+    path('ChangePasswordInterface', views.ChangePasswordInterface),
+    path('ChangePassword', views.ChangePassword),
+    path('ViewProfile', views.ViewProfile),
+    path('saveInformation', views.saveInformation),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -30,7 +30,7 @@
 							</div>
 							<div class="col-8">
 								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.Music}}">
-									<div>Name: {{i.Name}}</div>
+									<div id="Name{{i.Music}}">Name: {{i.Name}}</div>
 									<div>
 										Singer: {{i.Singer}}
 									</div>
@@ -181,6 +181,8 @@
 		xhttp.send();
 	}
 	function loadMusic(id){
+		NameMusic = document.getElementById('Name'+id).innerHTML;
+		document.getElementById("NameMusic").innerHTML = NameMusic;
 		document.getElementById('playMusic').src = "/media/"+id;
 		document.getElementById('audio').src = "/media/"+id;
 		var audio = document.getElementById('music');

@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from django.shortcuts import redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout
-from .models import Album, Cart, Category, Music, Group_music, Rate_music, Rate_album, Cart, Bill
+from .models import Album, Cart, Category, Music, Group_music, Rate_music, Rate_album, Cart, Bill, UserInfotmation
 from django.db.models import F
 from django.db import connection
 # Create your views here.
@@ -26,7 +26,8 @@ def index(request):
 		    	auth_login(request, user)
 		    	return redirect('/')
 		    else:
-		    	return render(request, 'login.html')
+		    	error = {'error': 'The account or password is incorrect, please try again'}
+		    	return render(request, 'login.html', error)
 		else:
 			return render(request, 'index.html', DataIndex())
 def logout_view(request):
@@ -331,3 +332,72 @@ def signUp(request):
 	    	return render(request, 'login.html')
 	else:
 		return render(request, 'index.html', DataIndex())
+def ChangePasswordInterface(request):
+	return render(request, 'ChangePassword.html')
+def ChangePassword(request):
+	if request.user.is_authenticated:
+		if request.method == 'POST':
+		    password = request.POST.get('password','')
+		    print(request.user.id)
+		    user = User.objects.get(id = request.user.id)
+		    user.set_password(password)
+		    user.save()
+		    user = authenticate(username=request.user.username, password=password)
+		    if(user is not None):
+		    	request.session.set_expiry(86400)
+		    	auth_login(request, user)
+		    	return redirect('/')
+		    else:
+		    	return render(request, 'login.html')
+		else:
+			return render(request, 'index.html', DataIndex())
+	else:
+		return redirect('/login')
+def ViewProfile(request):
+	if request.user.is_authenticated:
+		userInfotmation = UserInfotmation.objects.filter(UserID_id = request.user.id)
+		if(len(userInfotmation) == 0):
+			return render(request, 'profile.html')
+		else:
+			user = User.objects.get(id = request.user.id)
+			userInfotmation = UserInfotmation.objects.get(UserID_id = request.user.id)
+			print(userInfotmation)
+			data = {'user':user, 'userInfotmation':userInfotmation}
+			return render(request, 'profile.html', data)
+	else:
+		return redirect('/login')
+def saveInformation(request):
+	if request.user.is_authenticated:
+		Name = request.POST.get('Name','')
+		DOB = request.POST.get('DOB','')
+		Gender = request.POST.get('Gender','')
+		Address = request.POST.get('Address','')
+		Email = request.POST.get('Email','')
+		Phone = request.POST.get('Phone','')
+		Username = request.POST.get('Username','')
+		Password = request.POST.get('Password','')
+		userInfotmation = UserInfotmation.objects.filter(UserID_id = request.user.id)
+		if(len(userInfotmation) == 0):
+			UserInfotmation.objects.create(UserID_id = request.user.id, Name = Name, DateofBirth = DOB, Gender = Gender, Address = Address, Phone = Phone)
+			return redirect('/ViewProfile')
+		else:
+			UserInfotmation.objects.filter(UserID_id = request.user.id).update(UserID_id = request.user.id, Name = Name, DateofBirth = DOB, Gender = Gender, Address = Address, Phone = Phone)
+			user = User.objects.get(id = request.user.id)
+			user.username = Username
+			user.email = Email
+			user.set_password(Password)
+			user.save()
+			print(Gender)
+			user = authenticate(username=request.user.username, password=Password)
+			if(user is not None):
+				request.session.set_expiry(86400)
+				auth_login(request, user)
+				user = User.objects.get(id = request.user.id)
+				userInfotmation = UserInfotmation.objects.filter(UserID_id = request.user.id)
+				data = {'user':user, 'userInfotmation':userInfotmation}
+				return redirect('/ViewProfile')
+			else:
+				return render(request, 'login.html')
+	else:
+		return redirect('/login')
+

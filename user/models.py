@@ -45,4 +45,11 @@ class Bill(models.Model):
 	Bill = models.ImageField(null=True, blank=True)
 	Shipped = models.BooleanField()
 	Date = models.DateTimeField(auto_now_add = True)
+class UserInfotmation(models.Model):
+	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+	Name = models.CharField(max_length=100)
+	DateofBirth = models.CharField(max_length=100)
+	Gender = models.CharField(max_length=100)
+	Address = models.CharField(max_length=500)
+	Phone = models.IntegerField()
 
