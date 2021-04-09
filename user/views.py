@@ -72,22 +72,22 @@ def YourAlbum(request):
 		return render(request, 'Login.html')
 def ViewHotAlbum(request):
 	if request.user.is_authenticated:
-		album = Album.objects.filter(Public = True).order_by(F('Like').desc())[:10]
+		album = Album.objects.filter(UserID_id = None).order_by(F('Like').desc())[:10]
 		rate_album = Rate_album.objects.filter(UserID = request.user.id, isLike = True)
 		AllAlbum = {'album' : album, 'toolbar' : 'user/toolbarUser.html', 'title':'Hot album', 'rate_album':rate_album}
 		return render(request, 'Album.html', AllAlbum)
 	else:
-		album = Album.objects.filter(Public = True).order_by(F('Like').desc())[:10]
+		album = Album.objects.filter(UserID_id = None).order_by(F('Like').desc())[:10]
 		AllAlbum = {'album' : album, 'toolbar' : 'toolbar.html', 'title':'Hot album'}
 		return render(request, 'Album.html', AllAlbum)
 def NewAlbum(request):
 	if request.user.is_authenticated:
-		album = Album.objects.filter(Public = True).order_by(F('id').asc())[:10]
+		album = Album.objects.filter(UserID_id = None).order_by(F('id').asc())[:10]
 		rate_album = Rate_album.objects.filter(UserID = request.user.id, isLike = True)
 		AllAlbum = {'album' : album, 'toolbar' : 'user/toolbarUser.html', 'title':'New album', 'rate_album':rate_album}
 		return render(request, 'Album.html', AllAlbum)
 	else:
-		album = Album.objects.filter(Public = True).order_by(F('id').asc())[:10]
+		album = Album.objects.filter(UserID_id = None).order_by(F('id').asc())[:10]
 		AllAlbum = {'album' : album, 'toolbar' : 'toolbar.html', 'title':'New album'}
 		return render(request, 'Album.html', AllAlbum)
 def ViewCart(request):
