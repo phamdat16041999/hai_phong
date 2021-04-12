@@ -51,7 +51,8 @@
 		}
 
 		#timer {
-			color: #494B4E;
+			color: white;
+			margin-top: -10px;
 			line-height: 0;
 			font-size: 9pt;
 			float: right;
@@ -187,6 +188,11 @@
 		svg{
 			fill: white;
 		}
+		#elapsed
+		{
+			background-color: red;
+			height: 4px;
+		}
 	</style>
 </head>
 <body>
@@ -200,7 +206,8 @@
 							<source src="https://dl.dropbox.com/s/75jpngrgnavyu7f/The-Noisy-Freaks.ogg?dl=1" type="audio/ogg" id="playMusic">
 							</audio>
 							<div id="slider"><div id="elapsed"></div></div>
-							<p id="timer">0:00</p>
+							<p id="timer"></p>
+							<!-- <img class="rounded-circle" src="https://yeucay.vn/wp-content/uploads/2018/03/thanh-ngoc-to-2.jpg" alt="" style="width: 20px; height: 60px; position: absolute;"> -->
 							<div class="controls">
 <!-- 								<span class="expend"><svg class="step-backward" viewBox="0 0 25 25" xml:space="preserve">
 									<g><polygon points="4.9,4.3 9,4.3 9,11.6 21.4,4.3 21.4,20.7 9,13.4 9,20.7 4.9,20.7"/></g>
@@ -271,4 +278,19 @@
 				duration = music.duration;
 			}, false);
 		</script>
-		</html>
+		<script>
+// Get the video element with id="myVideo"
+var vid = document.getElementById("music");
+
+// Assign an ontimeupdate event to the video element, and execute a function if the current playback position has changed
+vid.ontimeupdate = function() {myFunction()};
+
+function myFunction() {
+  // Display the current position of the video in a p element with id="demo"
+  /*document.getElementById("time").innerHTML = Math.round(vid.currentTime * 100) / 100;*/
+  var x = document.getElementById("music").duration;
+  document.getElementById("timer").innerHTML = Math.round(vid.currentTime * 100) / 100+ "/" +Math.round(x * 100) / 100;
+  document.getElementById("elapsed").style.width = (Math.round(vid.currentTime * 100) / 100)/(Math.round(x * 100) / 100)*100 + "%";
+}
+</script>
+</html>
