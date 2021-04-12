@@ -31,19 +31,20 @@
 							<div class="col-8">
 								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.Music}}">
 									<div id="Name{{i.Music}}">Name: {{i.Name}}</div>
-									<div>
-										Singer: {{i.Singer}}
-									</div>
-									<div>
-										Price: {{i.Price}}$
-									</div>
-									<div>
-										Rate: {{i.Rate}}
-									</div>
-									<div>
-										Description: {{i.Description}}
-									</div>
 								</a>
+								<div>
+									Singer: {{i.Singer}}
+								</div>
+								<div>
+									Price: {{i.Price}}$
+								</div>
+								<div>
+									Rate: {{i.Rate}}
+								</div>
+								<div>
+									Description: {{i.Description}}
+								</div>
+								
 							</div>
 							<div class="col-2">
 								<i class="fa fa-heart-o" style="font-size:36px;cursor: pointer;" id="like{{i.id}}" onclick="like(id)"></i>
@@ -125,7 +126,7 @@
 				if(this.responseText == "Login")
 				{
 					console.log("aaaaaaaa")
-					location.href = "/login";
+					location.href = "/login?page="+location.href;
 				}
 				if(this.responseText == "Logged")
 				{
@@ -169,7 +170,7 @@
 			if (this.readyState == 4 && this.status == 200) {
 				if(this.responseText == "Login")
 				{
-					location.href = "/login";
+					location.href = "/login?page="+location.href;
 				}
 			}
 		};
@@ -186,7 +187,7 @@
 			if (this.readyState == 4 && this.status == 200) {
 				if(this.responseText == "Login")
 				{
-					location.href = "/login";
+					location.href = "/login?page="+location.href;
 				}
 			}
 		};

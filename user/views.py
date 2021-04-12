@@ -12,7 +12,8 @@ from django.http import HttpResponse
 import base64
 from django.core.files.base import ContentFile
 def login(request):
-	return render(request, 'login.html')
+	page = request.GET.get("page")
+	return render(request, 'login.html', {"page":page})
 def index(request):
 	if request.user.is_authenticated:
 		return render(request, 'index.html', DataIndexUser())
@@ -20,13 +21,14 @@ def index(request):
 		if request.method == 'POST':
 		    username = request.POST.get('username','')
 		    password = request.POST.get('password','')
+		    page = request.POST.get('page','')
 		    user = authenticate(username=username, password=password)
 		    if(user is not None):
 		    	request.session.set_expiry(86400)
 		    	auth_login(request, user)
-		    	return redirect('/')
+		    	return redirect(page)
 		    else:
-		    	error = {'error': 'The account or password is incorrect, please try again'}
+		    	error = {'error': 'The account or password is incorrect, please try again', "page":page}
 		    	return render(request, 'login.html', error)
 		else:
 			return render(request, 'index.html', DataIndex())
@@ -120,12 +122,12 @@ def MusicChart(request):
 		rate_music = Rate_music.objects.filter(UserID = request.user.id, isLike = True)
 		album = Album.objects.filter(UserID_id = request.user.id)
 		music = {'music' : music, 'rate_music':rate_music, 'toolbar' : 'user/toolbarUser.html', 'album':album}
-		return render(request, 'music.html', music)
+		return render(request, 'MusicChart.html', music)
 	else:
 		music = Music.objects.all().order_by("-Like")
 		rate_music = Rate_music.objects.filter(UserID = request.user.id, isLike = True)
 		music = {'music' : music, 'rate_music':rate_music, 'toolbar' : 'toolbar.html'}
-		return render(request, 'music.html', music)
+		return render(request, 'MusicChart.html', music)
 def addMusic(request, idMusic, idAlbum):
 	if request.user.is_authenticated:
 		if(len(Group_music.objects.filter(Music_ID = idMusic, AlbumID = idAlbum)) == 0):
@@ -339,18 +341,22 @@ def ChangePasswordInterface(request):
 def ChangePassword(request):
 	if request.user.is_authenticated:
 		if request.method == 'POST':
-		    password = request.POST.get('password','')
-		    print(request.user.id)
-		    user = User.objects.get(id = request.user.id)
-		    user.set_password(password)
-		    user.save()
-		    user = authenticate(username=request.user.username, password=password)
-		    if(user is not None):
-		    	request.session.set_expiry(86400)
-		    	auth_login(request, user)
-		    	return redirect('/')
-		    else:
-		    	return render(request, 'login.html')
+			password = request.POST.get('password','')
+			oldPassword = request.POST.get('oldPassword','')
+			user = authenticate(username=request.user.username, password=oldPassword)
+			if(user is not None):
+				user = User.objects.get(id = request.user.id)
+				user.set_password(password)
+				user.save()
+				user = authenticate(username=request.user.username, password=password)
+				if(user is not None):
+					request.session.set_expiry(86400)
+					auth_login(request, user)
+					return redirect('/')
+				else:
+					return redirect('/login')
+			else:
+				return render(request, 'ChangePassword.html', {"error":"Old password is incorrect"})
 		else:
 			return render(request, 'index.html', DataIndex())
 	else:
@@ -377,7 +383,7 @@ def saveInformation(request):
 		Email = request.POST.get('Email','')
 		Phone = request.POST.get('Phone','')
 		Username = request.POST.get('Username','')
-		Password = request.POST.get('Password','')
+		# Password = request.POST.get('Password','')
 		userInfotmation = UserInfotmation.objects.filter(UserID_id = request.user.id)
 		if(len(userInfotmation) == 0):
 			UserInfotmation.objects.create(UserID_id = request.user.id, Name = Name, DateofBirth = DOB, Gender = Gender, Address = Address, Phone = Phone)
@@ -387,19 +393,20 @@ def saveInformation(request):
 			user = User.objects.get(id = request.user.id)
 			user.username = Username
 			user.email = Email
-			user.set_password(Password)
-			user.save()
-			print(Gender)
-			user = authenticate(username=request.user.username, password=Password)
-			if(user is not None):
-				request.session.set_expiry(86400)
-				auth_login(request, user)
-				user = User.objects.get(id = request.user.id)
-				userInfotmation = UserInfotmation.objects.filter(UserID_id = request.user.id)
-				data = {'user':user, 'userInfotmation':userInfotmation}
-				return redirect('/ViewProfile')
-			else:
-				return render(request, 'login.html')
+			# user.set_password(Password)
+			# user.save()
+			# print(Gender)
+			# user = authenticate(username=request.user.username, password=Password)
+			# if(user is not None):
+			# 	request.session.set_expiry(86400)
+			# 	auth_login(request, user)
+			# 	user = User.objects.get(id = request.user.id)
+			# 	userInfotmation = UserInfotmation.objects.filter(UserID_id = request.user.id)
+			# 	data = {'user':user, 'userInfotmation':userInfotmation}
+			# 	return redirect('/ViewProfile')
+			# else:
+			# 	return render(request, 'login.html')
+			return redirect('/ViewProfile')
 	else:
 		return redirect('/login')
 def CheckLogin(request):

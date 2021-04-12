@@ -52,8 +52,9 @@
 						<span>Don't have an account? </span><span><a href="" title="">Sign Up</a></span>
 					</div>
 					<div class="col-12">
-						<form action="/" method="post">
+						<form action="/?page={{page}}" method="post">
 							{% csrf_token %}
+							<input type="text" name="page" id="page" style="display: none;" value="{{page}}">
 							<label class="form-label">User Name</label>
 							<input type="text" name="username" class="form-control" aria-describedby="passwordHelpBlock">
 							<label class="form-label">Password</label>

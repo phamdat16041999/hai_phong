@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
@@ -16,7 +16,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h2 style="color: white;">New a song</h2>
+				<h2 style="color: white;">Music chart</h2>
 			</div>
 			<div class="col-12">
 				<div class="row">
@@ -31,26 +31,25 @@
 							<div class="col-8">
 								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.Music}}">
 									<div id="Name{{i.Music}}">Name: {{i.Name}}</div>
-									<div>
-										Singer: {{i.Singer}}
-									</div>
-									<div>
-										Price: {{i.Price}}$
-									</div>
-									<div>
-										Rate: {{i.Rate}}
-									</div>
-									<div>
-										Description: {{i.Description}}
-									</div>
 								</a>
+								<div>
+									Singer: {{i.Singer}}
+								</div>
+								<div>
+									Price: {{i.Price}}$
+								</div>
+								<div>
+									Rate: {{i.Rate}}
+								</div>
+								<div>
+									Description: {{i.Description}}
+								</div>
+								
 							</div>
 							<div class="col-2">
 								<i class="fa fa-heart-o" style="font-size:36px;cursor: pointer;" id="like{{i.id}}" onclick="like(id)"></i>
 								<i class="fa fa-heart" style="font-size:36px; color: white; cursor: pointer; display: none;" id="unlike{{i.id}}" onclick="unLike(id)"></i>
-								{% if toolbar == "user/toolbarUser.html" %}
 								<i class="material-icons" style="font-size:50px; margin-top: -8px; position: absolute; cursor: pointer;" data-toggle="modal" data-target="#exampleModal" onclick="setMusic('{{i.id}}')">add</i>
-								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -121,7 +120,22 @@
 	}
 	function setMusic(id)
 	{
-		document.getElementById('setIdMusic').innerHTML = id;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if(this.responseText == "Login")
+				{
+					console.log("aaaaaaaa")
+					location.href = "/login?page="+location.href;
+				}
+				if(this.responseText == "Logged")
+				{
+					document.getElementById('setIdMusic').innerHTML = id;
+				}
+			}
+		};
+		xhttp.open("GET", "/CheckLogin", true);
+		xhttp.send();
 	}
 	function addMusic(id)
 	{
@@ -156,7 +170,7 @@
 			if (this.readyState == 4 && this.status == 200) {
 				if(this.responseText == "Login")
 				{
-					location.href = "/login";
+					location.href = "/login?page="+location.href;
 				}
 			}
 		};
@@ -173,7 +187,7 @@
 			if (this.readyState == 4 && this.status == 200) {
 				if(this.responseText == "Login")
 				{
-					location.href = "/login";
+					location.href = "/login?page="+location.href;
 				}
 			}
 		};
