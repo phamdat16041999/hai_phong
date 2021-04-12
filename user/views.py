@@ -158,18 +158,20 @@ def viewMusicInAlbum(request, id):
 		music = []
 		with connection.cursor() as cursor:
 			cursor.execute(
-				"SELECT user_music.Image, user_music.Name, user_music.Singer, user_music.Price, user_music.Like, user_music.Description, user_music.Music, user_music.id, user_album.Image, user_album.UserID_id, user_album.id  FROM user_music INNER JOIN user_group_music on user_group_music.Music_ID_id = user_music.id INNER JOIN user_album ON user_album.id = user_group_music.AlbumID_id WHERE user_album.id = '%s'" ,
+				"SELECT user_music.Image, user_music.Name, user_music.Singer, user_music.Price, user_music.Like, user_music.Description, user_music.Music, user_music.id, user_album.Image, user_album.UserID_id, user_album.id, user_album.Name, user_album.Like  FROM user_music INNER JOIN user_group_music on user_group_music.Music_ID_id = user_music.id INNER JOIN user_album ON user_album.id = user_group_music.AlbumID_id WHERE user_album.id = '%s'" ,
 				[id]
 			)
 			music.append(cursor.fetchall())
 		album = Album.objects.filter(UserID_id = request.user.id)
-		Allmusic = {'music' : music[0], 'toolbar' : 'user/toolbarUser.html', 'album':album}
+		rate_music = Rate_music.objects.filter(UserID = request.user.id, isLike = True)
+		rate_album = Rate_album.objects.filter(UserID = request.user.id, isLike = True)
+		Allmusic = {'music' : music[0], 'toolbar' : 'user/toolbarUser.html', 'album':album,'rate_music':rate_music, "rate_album":rate_album}
 		return render(request, 'viewMusicInAlbum.html', Allmusic)
 	else:
 		music = []
 		with connection.cursor() as cursor:
 			cursor.execute(
-				"SELECT user_music.Image, user_music.Name, user_music.Singer, user_music.Price, user_music.Like, user_music.Description, user_music.Music, user_music.id, user_album.Image FROM user_music INNER JOIN user_group_music on user_group_music.Music_ID_id = user_music.id INNER JOIN user_album ON user_album.id = user_group_music.AlbumID_id WHERE user_album.id = '%s'" ,
+				"SELECT user_music.Image, user_music.Name, user_music.Singer, user_music.Price, user_music.Like, user_music.Description, user_music.Music, user_music.id, user_album.Image, user_album.UserID_id, user_album.id, user_album.Name, user_album.Like FROM user_music INNER JOIN user_group_music on user_group_music.Music_ID_id = user_music.id INNER JOIN user_album ON user_album.id = user_group_music.AlbumID_id WHERE user_album.id = '%s'" ,
 				[id]
 			)
 			music.append(cursor.fetchall())
@@ -262,7 +264,7 @@ def addCart(request, id):
 	else:
 		response = HttpResponse()
 		response.writelines('Login')
-		return 
+		return response
 def deleteCart(request, id):
 	if request.user.is_authenticated:
 		Cart.objects.filter(UserID_id = request.user.id, AlbumID_id = id).delete();
@@ -400,4 +402,13 @@ def saveInformation(request):
 				return render(request, 'login.html')
 	else:
 		return redirect('/login')
+def CheckLogin(request):
+	if request.user.is_authenticated:
+		response = HttpResponse()
+		response.writelines('Logged')
+		return response
+	else:
+		response = HttpResponse()
+		response.writelines('Login')
+		return response
 

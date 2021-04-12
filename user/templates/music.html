@@ -48,9 +48,7 @@
 							<div class="col-2">
 								<i class="fa fa-heart-o" style="font-size:36px;cursor: pointer;" id="like{{i.id}}" onclick="like(id)"></i>
 								<i class="fa fa-heart" style="font-size:36px; color: white; cursor: pointer; display: none;" id="unlike{{i.id}}" onclick="unLike(id)"></i>
-								{% if toolbar == "user/toolbarUser.html" %}
 								<i class="material-icons" style="font-size:50px; margin-top: -8px; position: absolute; cursor: pointer;" data-toggle="modal" data-target="#exampleModal" onclick="setMusic('{{i.id}}')">add</i>
-								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -121,7 +119,22 @@
 	}
 	function setMusic(id)
 	{
-		document.getElementById('setIdMusic').innerHTML = id;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if(this.responseText == "Login")
+				{
+					console.log("aaaaaaaa")
+					location.href = "/login";
+				}
+				if(this.responseText == "Logged")
+				{
+					document.getElementById('setIdMusic').innerHTML = id;
+				}
+			}
+		};
+		xhttp.open("GET", "/CheckLogin", true);
+		xhttp.send();
 	}
 	function addMusic(id)
 	{

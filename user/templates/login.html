@@ -55,7 +55,7 @@
 						<form action="/" method="post">
 							{% csrf_token %}
 							<label class="form-label">User Name</label>
-							<input type="password" name="username" class="form-control" aria-describedby="passwordHelpBlock">
+							<input type="text" name="username" class="form-control" aria-describedby="passwordHelpBlock">
 							<label class="form-label">Password</label>
 							<input type="password" class="form-control" aria-describedby="passwordHelpBlock" name="password">
 							<p style="color: red;">{{error}}</p>
