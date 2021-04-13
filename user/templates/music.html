@@ -78,10 +78,16 @@
 							<h5>Your album</h5>
 						</div>
 						<div class="col-12" style="width: 100%; text-align: right; margin-bottom: 10px;">
-							<a href="/createAlbumInterface" title="">
-								<i class="material-icons" style="font-size:36px;">create_new_folder</i>
+							<a href="#" title="">
+								<i class="material-icons" style="font-size:36px;" onclick="createAlbumInterface()">create_new_folder</i>
 							</a>
 						</div>
+						<script>
+							function createAlbumInterface()
+							{
+								location.href = "/createAlbumInterface?page="+location.href;
+							}
+						</script>
 						<div class="col-12" id="setIdMusic" style="display: none;">
 						</div>
 						{% for i in album%}

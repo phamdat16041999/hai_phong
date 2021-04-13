@@ -37,7 +37,8 @@ def logout_view(request):
     return render(request, 'index.html', DataIndex())
 def createAlbumInterface(request):
 	if request.user.is_authenticated:
-		AllAlbum = {'toolbar' : 'user/toolbarUser.html'}
+		page = request.GET.get('page','')
+		AllAlbum = {'toolbar' : 'user/toolbarUser.html', "page":page}
 		return render(request, 'createAlbumInterface.html', AllAlbum)
 	else:
 		AllAlbum = {'toolbar' : 'toolbar.html'}
@@ -45,11 +46,12 @@ def createAlbumInterface(request):
 def createAlbum(request):
 	if request.user.is_authenticated:
 		if request.method == 'POST':
+			page = request.POST.get('page','')
 			Name = request.POST.get('Name','')
 			Description = request.POST.get('Description','')
 			ImageAlbum = request.FILES['ImageAlbum']
 			Album.objects.create(UserID_id = request.user.id, Name = Name, Description = Description, Public = False, Like = 0, Price = 0, Image  = ImageAlbum)
-			return redirect('/ViewAlbum')
+			return redirect(page)
 		else:
 			return render(request, 'login.html')
 	else:
