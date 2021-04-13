@@ -24,7 +24,7 @@
 </head>
 <body>
 	{% include toolbar %}
-	<form action="/saveBill" method="POST" accept-charset="utf-8">
+	<form action="/saveBill?albumID={{albumID}}" method="POST" accept-charset="utf-8">
 		{% csrf_token %}
 		<input type="" name="image" id="Image" style="display: none;">
 		<div class="container-xl" id="photo">
@@ -49,7 +49,7 @@
 				<div class="col-12 col-xl-6">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Phone number</label>
-						<input type="number" class="form-control" aria-describedby="emailHelp" required name="Phone" id="Phone">
+						<input type="text" class="form-control" aria-describedby="emailHelp" required name="Phone" id="Phone">
 						<p id="phoneValidation" style="color: red; display: none;">Your phone must be greater than 5 characters</p>
 					</div>
 				</div>
@@ -60,6 +60,11 @@
 						<p id="emailValidation" style="color: red; display: none;">Your email must be greater than 5 characters</p>
 					</div>
 				</div>
+			</div>
+			<div style="display: none;">
+				{% for i in album%}
+				<input type="text" name="Album" value="{{i.0.id}}"> 
+				{% endfor %}
 			</div>
 			<div class="row">
 				{% for i in album%}
@@ -119,7 +124,28 @@
 			</div>
 			<div class="row" style="margin-top: 20px;width: 100%; text-align: center;">
 				<div class="col-12">
-					<button type="button" class="btn btn-warning" onclick="buyNow()" style="display: none;" id="buyNowID">Buy now</button>
+					<button type="button" class="btn btn-warning" style="display: none;" id="buyNowID"  data-toggle="modal" data-target="#exampleModal">Buy now</button>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Thank you</h5>
+<!-- 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button> -->
+						</div>
+						<div class="modal-body">
+							Thank you for trusting us
+						</div>
+						<div class="modal-footer">
+							<!-- 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+							<button type="button" class="btn btn-primary" onclick="buyNow()">Ok</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -207,7 +233,7 @@ var getCanvas; // global variable
 
 $("#takeshotID").on('click', function () {
 	var validation = 0;
-/*	var Name = $("#Name").val();
+	var Name = $("#Name").val();
 	var Address = $("#Address").val();
 	var Phone = $("#Phone").val();
 	var Email = $("#Email").val();
@@ -250,7 +276,7 @@ $("#takeshotID").on('click', function () {
 	{
 		$("#emailValidation").show();
 		validation++;
-	}*/
+	}
 	if(validation == 0)
 	{
 		html2canvas(element, {

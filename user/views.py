@@ -35,6 +35,8 @@ def index(request):
 def logout_view(request):
     logout(request)
     return redirect("/")
+def thankYou(request):
+	return render(request, 'thankYou.html')
 def createAlbumInterface(request):
 	if request.user.is_authenticated:
 		page = request.GET.get('page','')
@@ -289,6 +291,9 @@ def bill(request, totalPrice):
 		return render(request, 'login.html')
 def saveBill(request):
 	if request.user.is_authenticated:
+		albumID = request.POST.getlist('Album','')
+		for i in albumID:
+			Cart.objects.filter(AlbumID_id = i, UserID_id =request.user.id).delete()
 		bill = request.POST.get('image')
 		format, imgstr = bill.split(';base64,') 
 		ext = format.split('/')[-1]
