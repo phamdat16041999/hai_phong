@@ -33,7 +33,12 @@
 						<i class="fa fa-heart-o" style="font-size:36px;cursor: pointer;" id="likeAlbum{{music.0.10}}" onclick="likeAlbum(id)"></i>
 						<i class="fa fa-heart" style="font-size:36px; color: white; cursor: pointer; display: none;" id="unLikeAlbum{{music.0.10}}" onclick="unLikeAlbum(id)"></i>
 					</div>
-					<div class="col-8">
+					<div class="col-2">
+						{% if music.0.9 != None %}
+						<i class="material-icons" style="font-size:36px; cursor: pointer;" onclick="deleteYourAlbum('{{music.0.10}}')">delete</i>
+						{% endif %}
+					</div>
+					<div class="col-6">
 						
 					</div>
 				</div>
@@ -157,6 +162,21 @@
 	$("#unLikeAlbum{{i.AlbumID_id}}").show();
 	$("#likeAlbum{{i.AlbumID_id}}").hide();
 	{% endfor %}
+	function deleteYourAlbum(id)
+	{
+		var splitID = id.match(/[a-z]+|[^a-z]+/gi);
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if(this.responseText == "Delete")
+				{
+					location.href = "/YourAlbum"
+				}
+			}
+		};
+		xhttp.open("GET", "/deleteYourAlbum/"+id, true);
+		xhttp.send();
+	}
 	function likeAlbum(id)
 	{
 		var splitID = id.match(/[a-z]+|[^a-z]+/gi);

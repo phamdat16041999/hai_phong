@@ -121,8 +121,13 @@
 				<div class="row information">
 					<div class="col-12">
 						<div class="row">
-							<div class="col-6">
+							<div class="col-3">
 								
+							</div>
+							<div class="col-3">
+								{% if i.UserID_id != None %}
+								<i class="material-icons" style="font-size:36px; cursor: pointer;" onclick="deleteYourAlbum('{{i.id}}')">delete</i>
+								{% endif %}
 							</div>
 							<div class="col-3">
 								<i class="fa fa-shopping-cart" style="font-size:36px;color:white; cursor: pointer;" onclick="buyAlbum('cart{{i.id}}')" data-toggle="modal" data-target="#exampleModal"></i>
@@ -172,14 +177,13 @@
 <script>
 	function deleteYourAlbum(id)
 	{
-		document.getElementById("remove"+id).remove();
 		var splitID = id.match(/[a-z]+|[^a-z]+/gi);
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				if(this.responseText == "Delete")
 				{
-					alert("Delete album successfully");
+					location.href = "/YourAlbum"
 				}
 			}
 		};

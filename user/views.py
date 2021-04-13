@@ -34,7 +34,7 @@ def index(request):
 			return render(request, 'index.html', DataIndex())
 def logout_view(request):
     logout(request)
-    return render(request, 'index.html', DataIndex())
+    return redirect("/")
 def createAlbumInterface(request):
 	if request.user.is_authenticated:
 		page = request.GET.get('page','')
@@ -73,7 +73,8 @@ def YourAlbum(request):
 		AllAlbum = {'album' : album, 'rate_album':rate_album, 'toolbar' : 'user/toolbarUser.html', 'title':'Your Album'}
 		return render(request, 'Album.html', AllAlbum)
 	else:
-		return render(request, 'Login.html')
+		page = request.GET.get("page")
+		return render(request, 'login.html', {"page":page})
 def ViewHotAlbum(request):
 	if request.user.is_authenticated:
 		album = Album.objects.filter(UserID_id = None).order_by(F('Like').desc())[:10]

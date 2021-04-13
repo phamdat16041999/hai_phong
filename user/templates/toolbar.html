@@ -36,11 +36,17 @@
 							Album
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item" href="/YourAlbum">Your Album</a>
+							<a class="dropdown-item" href="#" onclick="YourAlbum()">Your Album</a>
 							<a class="dropdown-item" href="/ViewAlbum">All Album</a>
 							<a class="dropdown-item" href="/NewAlbum">New Album</a>
 							<a class="dropdown-item" href="/ViewHotAlbum">Hot Album</a>
 						</div>
+						<script>
+							function YourAlbum()
+							{
+								location.href = "/YourAlbum?page="+location.href;
+							}
+						</script>
 					</div>
 					<a class="nav-item nav-link linkToolbar" href="/ViewMusic">All song</a>
 					<a class="nav-item nav-link linkToolbar" href="/MusicChart">Song charts</a>
