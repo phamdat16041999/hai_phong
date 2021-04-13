@@ -17,9 +17,6 @@
 	<div class="container" style="margin-bottom: 350px;">
 		<div class="row">
 			<div class="col-12">
-				<h2 style="color: white;">All song</h2>
-			</div>
-			<div class="col-12">
 				<div class="row">
 					{% for i in music%}
 					<div class="col-12" style="border: 1px solid white; margin-top: 15px; color: white;">
@@ -109,7 +106,9 @@
 		</div>
 	</div>
 </body>
-{% include 'footerContact.html' %}
+<div style="position: absolute; width: 100%; bottom: 0;">
+	{% include 'footerContact.html' %}
+</div>
 {% include "footer.html" %}
 <script>
 	/*shows the song status icon when reloading the page*/

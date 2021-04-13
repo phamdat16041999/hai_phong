@@ -35,8 +35,20 @@ def index(request):
 def logout_view(request):
     logout(request)
     return redirect("/")
-def thankYou(request):
-	return render(request, 'thankYou.html')
+def search(request):
+	if request.user.is_authenticated:
+		search = request.POST.get('search','')
+		music = Music.objects.filter(Name__contains = search)
+		rate_music = Rate_music.objects.filter(UserID = request.user.id, isLike = True)
+		album = Album.objects.filter(UserID_id = request.user.id)
+		music = {'music' : music, 'rate_music':rate_music, 'toolbar' : 'user/toolbarUser.html', 'album':album}
+		return render(request, 'searchRe.html', music)
+	else:
+		search = request.POST.get('search','')
+		music = Music.objects.filter(Name__contains = search)
+		rate_music = Rate_music.objects.filter(UserID = request.user.id, isLike = True)
+		music = {'music' : music, 'rate_music':rate_music, 'toolbar' : 'toolbar.html'}
+		return render(request, 'searchRe.html', music)
 def createAlbumInterface(request):
 	if request.user.is_authenticated:
 		page = request.GET.get('page','')
