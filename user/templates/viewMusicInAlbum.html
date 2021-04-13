@@ -41,7 +41,7 @@
 					<img src="/media/{{music.0.8}}" alt="" class="imageCircle rounded-circle">
 				</div>
 				<div style="margin-top: 10px;">
-					<p>Name album: {{music.0.11}}</p>
+					<p>Album name: {{music.0.11}}</p>
 					<p>Like: {{music.0.12}}</p>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 								</a>
 							</div>
 							<div class="col-8">
-								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.6}}">
+								<a href="#{{i.6}}" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.6}}">
 									<div id="Name{{i.6}}">Name: {{i.1}}</div>
 								</a>
 								<div>
@@ -275,7 +275,8 @@
 	}
 	function loadMusic(id){
 		NameMusic = document.getElementById('Name'+id).innerHTML;
-		document.getElementById("NameMusic").innerHTML = NameMusic;
+		var NameMusic = NameMusic.split(":");
+		document.getElementById("NameMusic").innerHTML = NameMusic[1];
 		document.getElementById('playMusic').src = "/media/"+id;
 		document.getElementById('audio').src = "/media/"+id;
 		var audio = document.getElementById('music');

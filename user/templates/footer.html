@@ -198,7 +198,7 @@
 <body>
 	<div style="width: 100%; background-color: #ED524D; position: fixed;bottom: 0;">
 		<div class="player">
-			<p style="color: white;" id="NameMusic">Music</p>
+			<p style="color: white;" id="NameMusic"></p>
 			<div class="info">
 				<div class="button-items">
 					<audio id="music" preload="auto" loop="false">
@@ -289,7 +289,15 @@ function myFunction() {
   // Display the current position of the video in a p element with id="demo"
   /*document.getElementById("time").innerHTML = Math.round(vid.currentTime * 100) / 100;*/
   var x = document.getElementById("music").duration;
-  document.getElementById("timer").innerHTML = Math.round(vid.currentTime * 100) / 100+ "/" +Math.round(x * 100) / 100;
+  var minutes1 = parseInt(vid.currentTime / 60);
+  var seconds1 = parseInt(vid.currentTime % 60);
+  var minutes2 = parseInt(x / 60);
+  var seconds2 = parseInt(x % 60);
+  var time = minutes1.toString() + ":" + seconds1.toString() + "/" + minutes2.toString() + ":" + seconds2.toString();
+  document.getElementById("timer").innerHTML = time;
+
+
+
   document.getElementById("elapsed").style.width = (Math.round(vid.currentTime * 100) / 100)/(Math.round(x * 100) / 100)*100 + "%";
 }
 </script>

@@ -76,13 +76,32 @@
 							<div>
 								Price: <span>{{i.0.Price}}$</span>
 							</div>
+							<div>
+								CD extra fee: 
+								{% if i.0.UserID_id == None %}
+								<span class="CD_extra_fee">0</span><span>$</span>
+								{% endif %}
+								{% if i.0.UserID_id != None %}
+								<span class="CD_extra_fee">5</span><span>$</span>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 				</div>
 				{% endfor %}
 				<div class="col-12">
-					<div style="font-weight: bold;"><span>Total price:</span> {{totalPrice}}$</div>
+					<div style="font-weight: bold;"><span>Total price:</span><span id="totalPrice"></span></div>
 				</div>
+				<script>
+					var CD_extra_fee = document.getElementsByClassName("CD_extra_fee")
+					var totalPrice = "{{totalPrice}}"
+					totalPrice = parseInt(totalPrice);
+					for(var i = 0; i < CD_extra_fee.length; i++)
+					{
+						totalPrice = totalPrice + parseInt(CD_extra_fee[i].innerHTML);
+					}
+					document.getElementById("totalPrice").innerHTML = totalPrice + "$"
+				</script>
 			</div>
 		</div>
 		<div class="container-xl">

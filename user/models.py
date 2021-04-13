@@ -5,7 +5,7 @@ class Album(models.Model):
 	Name = models.CharField(max_length=100)
 	Description = models.TextField()
 	Public = models.BooleanField()
-	Like = models.IntegerField()
+	Like = models.IntegerField(default = 0)
 	Price = models.IntegerField()
 	Image = models.ImageField(null=True, blank=True)
 	def __str__(self):
@@ -23,7 +23,7 @@ class Music(models.Model):
 	Name = models.CharField(max_length=100)
 	Singer = models.CharField(max_length=100)
 	Description = models.TextField()
-	Like = models.IntegerField()
+	Like = models.IntegerField(default = 0)
 	Price = models.IntegerField()
 	Image = models.ImageField(null=True, blank=True)
 	Music = models.FileField(upload_to='music/')

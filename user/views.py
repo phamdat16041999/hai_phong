@@ -68,7 +68,7 @@ def YourAlbum(request):
 	if request.user.is_authenticated:
 		album = Album.objects.filter(UserID_id = request.user.id)
 		rate_album = Rate_album.objects.filter(UserID = request.user.id, isLike = True)
-		AllAlbum = {'album' : album, 'rate_album':rate_album, 'toolbar' : 'user/toolbarUser.html', 'title':'Play list'}
+		AllAlbum = {'album' : album, 'rate_album':rate_album, 'toolbar' : 'user/toolbarUser.html', 'title':'Your Album'}
 		return render(request, 'Album.html', AllAlbum)
 	else:
 		return render(request, 'Login.html')

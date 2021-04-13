@@ -32,7 +32,7 @@
 								</a>
 							</div>
 							<div class="col-6">
-								<a href="#" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.Music}}">
+								<a href="#{{i.Music}}" title="" style="color:white;" onclick="loadMusic(id)" id="{{i.Music}}">
 									<div id="Name{{i.Music}}">Name: {{i.Name}}</div>
 								</a>
 								<div>
@@ -199,7 +199,8 @@
 	}
 	function loadMusic(id){
 		NameMusic = document.getElementById('Name'+id).innerHTML;
-		document.getElementById("NameMusic").innerHTML = NameMusic;
+		var NameMusic = NameMusic.split(":");
+		document.getElementById("NameMusic").innerHTML = NameMusic[1];
 		document.getElementById('playMusic').src = "/media/"+id;
 		document.getElementById('audio').src = "/media/"+id;
 		var audio = document.getElementById('music');
