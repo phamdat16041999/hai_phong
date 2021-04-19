@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'HaiPhong.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'music',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'NAME': 'heroku_4f54ad57a766656',
+        'USER': 'be95849fdb65c8',
+        'PASSWORD': '8d0ea07b',
+        'HOST': 'us-cdbr-east-03.cleardb.com',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
