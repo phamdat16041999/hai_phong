@@ -14,6 +14,9 @@ from django.core.files.base import ContentFile
 def login(request):
 	page = request.GET.get("page")
 	return render(request, 'login.html', {"page":page})
+def signUpPage(request):
+	page = request.GET.get("page")
+	return render(request, 'Sign up.html', {"page":page})
 def index(request):
 	if request.user.is_authenticated:
 		return render(request, 'index.html', DataIndexUser())
